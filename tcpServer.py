@@ -15,20 +15,13 @@ def main():
 	f = open('fill.bin','wb')
 	while True:
 		
-		data = c1.recv(2048)
-		#my_bytes = bytearray(data)
-		
-		#data = str(data)
-		print data
+		data = c1.recv(512)
 		if not data:
 			break
 		
 		f.write(data)
-		#print ''.join('{:02x}'.format(x) for x in my_bytes)
-		#print "From connected user  "
-		#data = str(data).upper()
-		#print "Sending: "+ str(data)
-		c1.send("File Received")
+		c1.send("File Received...")
+	f.close()
 	c1.close()
 
 if __name__ == '__main__':
