@@ -1,6 +1,6 @@
-#from sys import argv
+from sys import argv
 
-#script, input1, input2 = argv
+script, input1 = argv
 from time import sleep
 from random import random
 import sys
@@ -19,10 +19,11 @@ def IOPS(m):
         a+=b
         b/=4
         c-=d
-	#d*=3
+	d+=3
+	d-=8
+	c+=5
+	a+=67
 	
-      	
-
 def FLOPS(m):
     a = 10.2; b = 20.5; c = 15.4; d = 12.8
         
@@ -31,9 +32,9 @@ def FLOPS(m):
         a+=b
         a/=3
 	c-=d
-    	#b*=4
-        
+	d*=4
 
+     	
 def solu1():
     jobs = []
     for i in range(thread):
@@ -43,9 +44,7 @@ def solu1():
     
     for i in range(len(jobs)):
         p.join()
-    
-    #print "IOPS completed"
-    
+
 def solu2():
     jobs = []
     for i in range(thread):
@@ -56,24 +55,24 @@ def solu2():
     
     for i in range(len(jobs)):
         p.join()
-    
-    #print "FLOPS completed"
-    
+
 if __name__ == '__main__':
     
     ITERATIONS = 10000000
     #thread = int(input2)
-    thread = int(raw_input("Enter number of Thread: "))
+    thread = 4
     #Dtype = input1
     #mutex = Lock()
-    Dtype = 'iops'
-    
+    Dtype = input1
+    samp_iops = []
+    samp_flops = []
+
     if Dtype == 'iops':
 	
     	start = time.time()
 	solu1()
 	tsec = time.time() - start
-	print "IOPS Time Elapsed: %.3f s " %tsec
+	#print "IOPS Time Elapsed: %.3f s " %tsec
 	
         #print tsec	
     	#cpu_time = tsec / time.clock()
@@ -81,21 +80,23 @@ if __name__ == '__main__':
     	
     	Iops= (ITERATIONS*1000)/(tsec)
     	#print Iops
-    	gIops=Iops/(10**9)
-    	print "GIOPS : %f" %gIops
-    
+    	#gIops=Iops/(10**9)
+	samp_iops.append(Iops)
+    	print samp_iops
+
     elif Dtype == 'flops':
-    
-    	start = time.time()
+
+	start = time.time()
 	solu2()
 	tsec = time.time() - start
-	print "FLOPS Time Elapsed: %.3f s " %tsec
+	#print "FLOPS Time Elapsed: %.3f s " %tsec
         #print tsec	
     	#cpu_time = tsec / time.clock()
     	#print "Cpu Time: %f s" %cpu_time
     	
     	flops= (ITERATIONS*1000)/(tsec)
     	#print flops
-    	gflops=flops/(10**9)
-    	print "GFLOPS : %f" %gflops
+    	#gflops=flops/(10**9)
+    	samp_flops.append(flops)
+    	print samp_flops
 
