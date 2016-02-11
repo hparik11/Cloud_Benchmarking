@@ -30,19 +30,17 @@ def ThreadClient(n,p,port):
 	s.close()
 
 def solu1():
-	t1 = multiprocessing.Process(target=ThreadClient,args=(1,int(m*buffer),5184))
+	
         t1.start()
 	t1.join()
 
 def solu2():
-	t1 = multiprocessing.Process(target=ThreadClient,args=(1,int(m*buffer/2),6780))
-	t1.start()
-	t2 = multiprocessing.Process(target=ThreadClient,args=(2,int(m*buffer/2),2589))
-	t2.start()
-
-	t1.join()
-	t2.join()
-
+	
+	for i in jobs:
+		i.start()
+	
+	for i in jobs:
+		i.join()
 
 if __name__ == '__main__':
 
@@ -63,21 +61,24 @@ if __name__ == '__main__':
 		print "Something went Wrong"	
 
 	if thread == 1:
+		t1 = multiprocessing.Process(target=ThreadClient,args=(1,int(m*buffer),5184))
 		start = time.time()
-		solu1()
+		solu1(t1)
 		end = time.time()
 		t = (end-start)*1000
 		print "Elapsed Time for TCP is : %.3f ms" %(t)
-		throughput = (1000*m*buffer*buffer*8)/(t*1024*1024)
+		throughput = (1000*m*thread*buffer*buffer*8)/(t*1024*1024)
 		print "Throughput is : %.3f Mega Bits/Sec.." %throughput
 	
 	else:
+		t1 = multiprocessing.Process(target=ThreadClient,args=(1,int(m*buffer/2),6780))
+		t2 = multiprocessing.Process(target=ThreadClient,args=(2,int(m*buffer/2),2589))
 		start = time.time()
 		solu2()
 		end = time.time()
 		t = (end-start)*1000
 		print "Elapsed Time for TCP is : %.3f ms" %t
-		throughput = (1000*m*buffer*buffer*8)/(t*1024*1024)
+		throughput = (1000*m*thread*buffer*buffer*8)/(t*1024*1024)
 		print "Throughput is : %.3f Mega Bits/Sec.." %throughput
 	
 	f.close()

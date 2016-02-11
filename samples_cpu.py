@@ -60,7 +60,7 @@ if __name__ == '__main__':
     
     ITERATIONS = 10000000
     #thread = int(input2)
-    thread = 4
+    thread = 1
     #Dtype = input1
     #mutex = Lock()
     Dtype = input1
@@ -80,9 +80,9 @@ if __name__ == '__main__':
     	
     	Iops= (ITERATIONS*1000)/(tsec)
     	#print Iops
-    	#gIops=Iops/(10**9)
-	samp_iops.append(Iops)
-    	print samp_iops
+    	gIops=Iops/(10**9)
+	#samp_iops.append(Iops)
+    	print gIops
 
     elif Dtype == 'flops':
 
@@ -96,7 +96,7 @@ if __name__ == '__main__':
     	
     	flops= (ITERATIONS*1000)/(tsec)
     	#print flops
-    	#gflops=flops/(10**9)
-    	samp_flops.append(flops)
-    	print samp_flops
+    	gflops=flops/(10**9)
+    	#samp_flops.append(flops)
+    	print gflops
 
