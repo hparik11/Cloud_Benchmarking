@@ -1,9 +1,9 @@
 #!/bin/bash
 
-rm -r Results/disk
+#rm -r Results/disk
 mkdir Results/disk
 
-for filesize in 1b 1kb 1mb
+for buffersize in 1b 1kb 1mb
 do
 	for access in seqn rnd
 	do
@@ -11,14 +11,14 @@ do
 		do
 			for thread in 1 2
 			do
-				for (( i = 0; i < 1; i++ ))
+				for (( i = 0; i < 3; i++ ))
 				do
 					echo "operation type: "$opt", access type: "$access	\
-					", File size:"$filesize", thread number: "$thread
-					python disk.py $opt $access $filesize $thread >>	\
-					disk"_"$opt"_"$access"_"$filesize"_"$thread.txt
+					", Buffer size:"$buffersize", thread number: "$thread
+					python disk.py $opt $access $buffersize $thread >>	\
+					disk"_"$opt"_"$access"_"$buffersize"_"$thread.txt
 				done
-				mv disk"_"$opt"_"$access"_"$filesize"_"$thread.txt Results/disk
+				mv disk"_"$opt"_"$access"_"$buffersize"_"$thread.txt Results/disk
 			done
 		done
 	done

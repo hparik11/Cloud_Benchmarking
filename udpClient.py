@@ -12,16 +12,16 @@ import time,math
 
 
 def ThreadClient(n,p,c_port,s_port):
-        host = '127.0.0.4'
+        host = '172.31.51.20'
         
-	server = ('127.0.0.2',s_port)
+	server = ('',s_port)
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         s.bind((host,c_port))
 
         
 	for i in range(2*p):
-		f = open(packet+'_file','rb')
-		l = f.read(1024)
+		f = open(packet+'_file','rb')			## File open in read mode
+		l = f.read(1024)				## 1024 bytes go together. 
 		
 		while l :
 		        s.sendto(l, server)
@@ -45,6 +45,8 @@ def solu2(jobs):
 	for i in jobs:
 		i.join()
 
+
+## Main method ##
 
 if __name__ == '__main__':
         

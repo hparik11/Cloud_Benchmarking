@@ -1,15 +1,16 @@
-#from sys import argv
+from sys import argv
 
-#script, input1, input2 = argv
+script, input1, input2 = argv
 from time import sleep
 from random import random
 import sys
 import multiprocessing
-#from threading import Thread
-#import threading
 from timeit import Timer
 import time
 
+
+
+## This IOPS Function does arithmetic Integer operation ##
 
 def IOPS(m):
     a = 10; b = 20; c = 15; d = 12 
@@ -21,7 +22,7 @@ def IOPS(m):
         c-=d
 	#d*=3
 	
-      	
+## This FLOPS Function does arithmetic FLoating operations ##       	
 
 def FLOPS(m):
     a = 10.2; b = 20.5; c = 15.4; d = 12.8
@@ -33,6 +34,8 @@ def FLOPS(m):
 	c-=d
     	#b*=4
         
+
+## This function creates and starts the thread IOPS. and joins all threads for completion.   ##
 
 def solu1():
     jobs = []
@@ -59,29 +62,30 @@ def solu2():
     
     #print "FLOPS completed"
     
+
+## Main Method ##
+
 if __name__ == '__main__':
     
-    ITERATIONS = 10000000
-    #thread = int(input2)
-    thread = int(raw_input("Enter number of Thread: "))
-    #Dtype = input1
-    #mutex = Lock()
-    Dtype = 'iops'
+    ITERATIONS = 10000000                        	## Number of Iterations 
     
-    if Dtype == 'iops':
+    thread = int(input2)				## Number of threads a user enters as argument. 
+    
+    Dtype = input1
+    
+    
+    if Dtype == 'iops':				
 	
-    	start = time.time()
-	solu1()
+    	start = time.time()				## Start of timer. 
+	solu1()						## The function of which we want to find the elapsed time. 
 	tsec = time.time() - start
-	print "IOPS Time Elapsed: %.3f s " %tsec
+	print "IOPS Time Elapsed: %.3f s " %tsec        ## Total time elapsed for completion of IOPS. 
 	
-        #print tsec	
-    	#cpu_time = tsec / time.clock()
-    	#print "Cpu Time: %f s" %cpu_time
+       
     	
-    	Iops= (ITERATIONS*1000)/(tsec)
+    	Iops= (ITERATIONS*1000)/(tsec)			
     	#print Iops
-    	gIops=Iops/(10**9)
+    	gIops=Iops/(10**9)				## To get GIOPS, divide by 10^9. 
     	print "GIOPS : %f" %gIops
     
     elif Dtype == 'flops':
@@ -89,10 +93,8 @@ if __name__ == '__main__':
     	start = time.time()
 	solu2()
 	tsec = time.time() - start
-	print "FLOPS Time Elapsed: %.3f s " %tsec
-        #print tsec	
-    	#cpu_time = tsec / time.clock()
-    	#print "Cpu Time: %f s" %cpu_time
+	print "FLOPS Time Elapsed: %.3f s " %tsec	
+       
     	
     	flops= (ITERATIONS*1000)/(tsec)
     	#print flops

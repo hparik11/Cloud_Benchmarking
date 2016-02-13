@@ -7,75 +7,87 @@ from timeit import Timer
 import time
 script, input1, input2, input3, input4 = argv
 
-def WriteToFileSeq(filename,mysizeKB):
+
+
+## This method is called when sequential write needs to perform. ##
+
+def WriteToFileSeq(filename,mysize):
 	
-	mystring = "Hi This is Harsh Parikh."
-	writeloops = int(math.ceil(1024*mysizeKB/len(mystring)))
-	#print "loops : %d " %writeloops
+	mychar = "H"								## a single character of 1 byte
+	writeloops = int(math.ceil(30*1024*1024/mysize))			## This loop actually gives the iterations. 
+	
 	try:
-		f = open(filename, 'w')
+		f = open(filename, 'w+')
 	except:
 		raise
 	for x in range(0, writeloops):
-		f.write(mystring)
+		f.write(mychar*mysize)						## Write characters times buffer size at a time.   
 	f.close()
 	
 	
 	#os.remove(filename)
 
-def FileToReadSeq(filename):
+
+## This method is called when Sequential Read needs to perform. ##
+
+def FileToReadSeq(filename,mysize):
 	
-	f = open(filename, 'rb')
-	f.read()
+	f = open(filename, 'r+')
+	readloops = int(math.ceil(30*1024*1024/mysize))
+	for i in range(0,readloops):
+		f.read(mysize)
 	f.close()
 
-def WriteToFileRnd(filename,mysizeKB):
+
+
+## This method is called when Random write needs to perform. ##
+
+def WriteToFileRnd(filename,mysize):
 	
 	mychar = 'H'
-	writeloops = int(math.ceil(1024*mysizeKB/len(mychar)))
+	writeloops = int(math.ceil(30*1024*1024/mysize))
 	try:
-		f = open(filename, 'wb')
+		f = open(filename, 'w+')
 	except:
 		raise
-	a = random.randint(0,int(math.ceil(mysizeKB*1024)))
-	
-	
-	f.seek(a)	
-		
-	for i in range(a,writeloops):
-		f.write('P')
-	
-	f.seek(0)
-	
-	for x in range(0, a):
-		f.write(mychar)
 
+	
+	for i in range(0,writeloops):
+		a = random.randint(0,writeloops)				## Randomly generate a number from a range. 
+		f.seek(a)							## Put pointer at a specific location 		
+		f.write('P'*mysize)						## Start writing characters from the pointer location
+	
 	f.close()
 
-def FileToReadRnd(filename,mysizeKB):
+
+## This method is called when Random Read needs to perform. ##
+
+def FileToReadRnd(filename,mysize):
 	
-	f = open(filename, 'rb')
-	a = random.randint(0,int(math.ceil(mysizeKB*1024)))
-	f.seek(a)
-	f.read()
-	f.seek(0)
-	f.read(a)
-	f.read()
+	f = open(filename, 'r+')
+	readloops = int(math.ceil(30*1024*1024/mysize))
+
+	for i in range(0,readloops):
+		a = random.randint(0,readloops)
+		f.seek(a)				
+		f.read(mysize)
+	
 	f.close()
 
+
+## This function finds the Disk Write Speed.  ##
 
 def DiskWriteSpeed(dirname):
 	
-	#maxtime = 10 		# in sec
-	filename = os.path.join(dirname,'WriteFile.txt')
-	start = time.time()
+	#maxtime = 0.5		# in sec
+	filename = os.path.join(dirname,'30mb_file.txt')
 	loopcounter = 0
 	while True:
 		try:
 			if input2 == 'rnd':
-				WriteToFileRnd(filename, filesize)
+				WriteToFileRnd(filename, buffersize)
 			else:
-				WriteToFileSeq(filename, filesize)
+				WriteToFileSeq(filename, buffersize)
 		except:
 			raise	
 		
@@ -83,58 +95,50 @@ def DiskWriteSpeed(dirname):
 
 		diff = time.time() - start
 		
-		if loopcounter > (bs/thread):
+		if loopcounter > 0:
 			break
 
+
 	
+def solu1(jobs):
 	
-
-def solu1():
-	jobs = []
-    	for i in range(thread):
-       		p = multiprocessing.Process(target=DiskWriteSpeed,args=(dirname,))
-       		jobs.append(p)
-       		p.start()
+	for i in jobs:
+     		i.start()
     
-    
-    	for i in range(len(jobs)):
-       		p.join()
+    	for i in jobs:
+       		i.join()
 
 
+## This function finds the Disk Read Speed.  ##
 
 def DiskReadSpeed(dirname):
 
 	#maxtime = 0.5 		# in sec
-	filename = os.path.join(dirname,'WriteFile.txt')
-	start = time.time()
+	filename = os.path.join(dirname,'30mb_file.txt')
+	
 	loopcounter = 0
 	while True:
 		try:
 			if input2 == 'rnd':
-				FileToReadRnd(filename,filesize)
+				FileToReadRnd(filename,buffersize)
 			else:
-				FileToReadSeq(filename)
+				FileToReadSeq(filename,buffersize)
 		except:
 			raise	
 		
 		loopcounter += 1
 		diff = time.time() - start
 		
-		if loopcounter > (bs/thread):
+		if loopcounter > 0:
 			break
 
+def solu2(jobs):
 	
-
-def solu2():
-	jobs = []
-    	for i in range(thread):
-       		p = multiprocessing.Process(target=DiskReadSpeed,args=(dirname,))
-       		jobs.append(p)
-       		p.start()
+    	for i in jobs:
+       		i.start()
     
-    
-    	for i in range(len(jobs)):
-       		p.join()
+    	for i in jobs:
+       		i.join()
 
 
 
@@ -142,56 +146,58 @@ if __name__ == "__main__":
 	
 
 	if input3 == '1b':
-		filesize = 0.001   #Size in kb
-		bs = 100000
-
+		buffersize = 1   				## Buffer Size in Byte
+		
 	elif input3 == '1kb':
-		filesize = 1
-		bs = 10000
+		buffersize = 1024					## Buffer size
+		
 	elif input3 == '1mb':
-		filesize = 1024
-		bs = 100
+		buffersize = 1024*1024
+		
 	else:
 		print "Please Give Input Properly..."  
 
 	
 	
-	dirname = os.getcwd()    # Using current working directory
-	#filesize = 1024      # Size in KB
-	#access = input2
-	#thread = int(raw_input("Enter no of threads: "))
-	thread = int(input4)	
-	#bs = 100
-	#input2 = 'seqn'
-	#input1 = 'Write'
+	dirname = os.getcwd()    					## Using current working directory
+	
+	thread = int(input4)						## Number of Threads
 	
 	if input1 == 'Write':
+		jobs = []
+    		for i in range(thread):
+       			p = multiprocessing.Process(target=DiskWriteSpeed,args=(dirname,))
+       			jobs.append(p)
+
 		start = time.time()
-		solu1()
+		solu1(jobs)
 		tsec = time.time() - start
-		latency = (tsec*1000)/(filesize*bs*1024)
-		print "Latency = %.4f ms" %(tsec*1000/bs) 
+		latency = (tsec*buffersize)/(30000)			
+		print "Latency = %.4f ms" %(latency) 
 		#print loopcounter
-		speed = (bs*filesize)/tsec
-		speed /= 1000
+		speed = (thread*30)/tsec				## Already created 30 MB file and working on it based on buffer size.. 
+		
 		print "Disk writing speed : %.3f MBytes/sec" % speed		
 	
 	
 	elif input1 == 'Read':
+		jobs = []
+    		for i in range(thread):
+       			p = multiprocessing.Process(target=DiskReadSpeed,args=(dirname,))
+       			jobs.append(p)
+
 		start = time.time()
-		solu2()
+		solu2(jobs)
 		tsec = time.time() - start
-		latency = (tsec*1000)/(filesize*bs*1024)
-		print "Latency = %.4f ms" %(tsec*1000/bs) 
+		latency = (tsec*buffersize)/(30000)
+		print "Latency = %.4f ms" %(latency) 
 		#print loopcounter
-		speed = (bs*filesize)/tsec
-		speed /= 1000
-		print "Disk reading speed : %.3f MBytes/sec" % speed	
+		speed = (thread*30)/(tsec)
+		
+		print "Disk reading speed : %.3f MBytes/sec" % speed		
 	
 	else:
 		print "You are looking for Some other thing..."
 	
 	
-	#os.remove('WriteFile.txt')
-	#print "Completed..."
-
+	

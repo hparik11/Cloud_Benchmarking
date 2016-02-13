@@ -12,29 +12,28 @@ import socket
 
 
 def ThreadServer(n,port):
-        host = '127.0.0.2'
+        host = ''
 	
-        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)			## UDP socket initialization. 
         s.bind((host,port))
 	print "Server %d Started" %n
 
-        f = open('fill.bin','wb')
+        f = open('fill.bin','wb')						## Writing the data in this file
 	try:
 		while True:
 			
-		        data, addr = s.recvfrom(1024)
+		        data, addr = s.recvfrom(1024)	
 			print "Connection from : " +  str(addr)
 		        if not data:
-				
-		        	break
-			s.settimeout(2)
+				break
+
+			s.settimeout(2)						## Set timeout time of 2 sec. 
 		        print "From connected user "+ str(data)
 		        f.write(data)
 	 		print "Sending :" +str(data)
 			s.sendto(data,addr)
 	except timeout:
 		f.close()
-		
 		s.close()
 
 if __name__ == '__main__':

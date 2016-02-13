@@ -5,8 +5,7 @@ from time import sleep
 from random import random
 import sys
 import multiprocessing
-#from threading import Thread
-#import threading
+
 from timeit import Timer
 import time
 
@@ -14,7 +13,7 @@ import time
 def IOPS(m):
     a = 10; b = 20; c = 15; d = 12 
     
-    for i in range(ITERATIONS/m):
+    for i in range(ITERATIONS/m):				## Loop would be Number of iteration/no. of threads.
 
         a+=b
         b/=4
@@ -59,44 +58,32 @@ def solu2():
 if __name__ == '__main__':
     
     ITERATIONS = 10000000
-    #thread = int(input2)
-    thread = 1
-    #Dtype = input1
-    #mutex = Lock()
+    thread = 4						## Putting thread value as fixed one. 
+    
     Dtype = input1
-    samp_iops = []
-    samp_flops = []
-
+    
+    
     if Dtype == 'iops':
 	
     	start = time.time()
 	solu1()
 	tsec = time.time() - start
-	#print "IOPS Time Elapsed: %.3f s " %tsec
-	
-        #print tsec	
-    	#cpu_time = tsec / time.clock()
-    	#print "Cpu Time: %f s" %cpu_time
+		
+    	Iops= (ITERATIONS*1000)/(tsec)		
     	
-    	Iops= (ITERATIONS*1000)/(tsec)
-    	#print Iops
-    	gIops=Iops/(10**9)
-	#samp_iops.append(Iops)
-    	print gIops
+    	#gIops=Iops/(10**9)
+	
+    	print Iops
 
     elif Dtype == 'flops':
 
 	start = time.time()
 	solu2()
 	tsec = time.time() - start
-	#print "FLOPS Time Elapsed: %.3f s " %tsec
-        #print tsec	
-    	#cpu_time = tsec / time.clock()
-    	#print "Cpu Time: %f s" %cpu_time
+	
     	
     	flops= (ITERATIONS*1000)/(tsec)
-    	#print flops
-    	gflops=flops/(10**9)
-    	#samp_flops.append(flops)
-    	print gflops
+    	
+    	
+    	print flops
 

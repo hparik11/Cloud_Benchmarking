@@ -1,0 +1,4 @@
+Latency = 0.0036 ms
+Disk writing speed : 0.280 MBytes/sec
+Latency = 0.0034 ms
+Disk writing speed : 0.292 MBytes/sec
