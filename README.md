@@ -1,13 +1,13 @@
 # Cloud_Benchmarking - Illinois Institute of Technology
 
 
-# Benchmarking software for CPU, GPU, Memory and Network evaluations
+# Benchmarking software for CPU, Disk and Network evaluations...
 
 #################################################################################################################################
 
 
 
-1. How to Start the CPU Process:- 
+# 1. How to Start the CPU Process:- 
 
 The “PROG1_Parikh_Harsh” directory contains the benchmarking programs. There are numerous files present in the directory.   
 
@@ -47,7 +47,7 @@ After completion of this bash script, all the results are stored in Results/cpu.
 
 
 
-2. How to Start the Disk Process:-
+# 2. How to Start the Disk Process:-
 
 
 1) Enter the “PROG1_Parikh_Harsh” directory.
@@ -70,7 +70,7 @@ After completion of this bash script, all the results are stored in Results/disk
 
 
 
-3. How to Start the Network Process:-
+# 3. How to Start the Network Process:-
 
 
 
