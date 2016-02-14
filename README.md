@@ -5,6 +5,8 @@
 
 #################################################################################################################################
 
+
+
 1. How to Start the CPU Process:- 
 
 The “PROG1_Parikh_Harsh” directory contains the benchmarking programs. There are numerous files present in the directory.   
@@ -42,6 +44,9 @@ After completion of this bash script, all the results are stored in Results/cpu.
 
 #############################################################################################################################################################
 
+
+
+
 2. How to Start the Disk Process:-
 
 
@@ -59,6 +64,11 @@ After completion of this bash script, all the results are stored in Results/disk
 
 
 #################################################################################################################################################
+
+
+
+
+
 
 3. How to Start the Network Process:-
 
